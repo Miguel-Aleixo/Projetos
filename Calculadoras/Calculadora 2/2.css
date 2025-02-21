@@ -1,0 +1,107 @@
+/* Resetando alguns estilos padrão do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+/* Estilizando o container principal */
+main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Input onde o resultado aparece */
+#valor {
+    width: 100%;
+    padding: 10px;
+    font-size: 2em;
+    text-align: right;
+    border: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    margin-bottom: 20px;
+}
+
+/* Estilizando os botões */
+button {
+    padding: 20px;
+    margin: 5px;
+    font-size: 1.5em;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:active {
+    background-color: #d0d0d0;
+}
+
+/* Botões de operações */
+#mult, #divi, #soma, #subt {
+    background-color: #ff8c00;
+    color: white;
+}
+
+#mult:active, #divi:active, #soma:active, #subt:active {
+    background-color: #e07b00;
+}
+
+/* Botão de igual */
+#igual {
+    background-color: #28a745;
+    color: white;
+}
+
+#igual:active {
+    background-color: #218838;
+}
+
+/* Layout dos botões */
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+nav .numeros button,
+nav .primeiro button,
+nav .segundo button {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+}
+
+nav .numeros button {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+nav .numeros button:active {
+    background-color: #e0e0e0;
+}
+
+nav .primeiro button {
+    width: 130px;
+}
+
+nav .segundo button {
+    width: 60px;
+}
