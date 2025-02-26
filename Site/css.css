@@ -1,33 +1,56 @@
+:root {
+    --cor-fundo : rgb(40,40,40);
+    --cor-hover : rgb(150,150,150);
+    --cor-primaria : rgb(255, 255, 255);
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-
-* {
+*{
+    padding: 0;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Open Sans", serif;
 }
 
-#menu {
-    list-style: none;
+.menu ul {
+    list-style-type: none;
     padding: 0;
-    background-color: rgb(37,37,39);
 }
 
-#menu li {
+.menu ul {
+    background-color: var(--cor-fundo);
+}
+
+.menu ul li {
     display: inline;
-    padding: 30px;
+    position: relative;
 }
 
-#menu li a {
-    display: inline-block;
-    color: white;
+.menu ul li a {
+    color: var(--cor-primaria); 
     text-decoration: none;
-    padding: 20px;
-    border-radius: 50px;
+    display: inline-block;
+    padding: 10px;
+    transition: 0.3s;
 }
 
-#menu li a:hover{
-    color: white;
+.menu ul li a:hover {
+    color: var(--cor-primaria);
     background-color: rgb(20,20,20);
 }
+
+.menu ul ul{
+    display: none;
+    position: absolute;
+    left: 0;
+    transition: 0.3s;
+}
+
+.menu ul li:hover ul{
+    display: block;
+}
+
+.menu ul ul{
+    width: 150px;
+}
+
+.menu ul ul li a {
+    display: block;
+} 
