@@ -1,0 +1,15 @@
+C:\Users\Alunos\Desktop\DS\primeiro_app\bin\Debug\net6.0\primeiro_app.exe
+C:\Users\Alunos\Desktop\DS\primeiro_app\bin\Debug\net6.0\primeiro_app.deps.json
+C:\Users\Alunos\Desktop\DS\primeiro_app\bin\Debug\net6.0\primeiro_app.runtimeconfig.json
+C:\Users\Alunos\Desktop\DS\primeiro_app\bin\Debug\net6.0\primeiro_app.dll
+C:\Users\Alunos\Desktop\DS\primeiro_app\bin\Debug\net6.0\primeiro_app.pdb
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\primeiro_app.csproj.AssemblyReference.cache
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\primeiro_app.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\primeiro_app.AssemblyInfoInputs.cache
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\primeiro_app.AssemblyInfo.cs
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\primeiro_app.csproj.CoreCompileInputs.cache
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\primeiro_app.dll
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\refint\primeiro_app.dll
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\primeiro_app.pdb
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\primeiro_app.genruntimeconfig.cache
+C:\Users\Alunos\Desktop\DS\primeiro_app\obj\Debug\net6.0\ref\primeiro_app.dll
