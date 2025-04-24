@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form class="form" method="get">
+        <label for="nome">Nome:</label><br>
+        <input type="text" name="nome" class="nome"><br>
+
+        <label for="sobrenome">Sobrenome:</label><br>
+        <input type="text" name="sobrenome" class="sobrenome"><br>
+
+        <label for="peso">Peso:</label><br>
+        <input type="text" name="peso" class="peso"><br>
+
+        <label for="altura">Altura:</label><br>
+        <input type="text" name="altura" class="altura"><br><br>
+
+        <button type="submit" >Enviar</button>
+
+    </form>
+
+    <div class="resultado"></div>
+</body>
+
+<script>
+
+    function meuEscopo() {
+        const form = document.querySelector('.form');
+        const resultado = document.querySelector('.resultado')
+
+        const pessoas = [];
+
+        function RecebeEventoForm (evento) {
+            evento.preventDefault();
+
+            let nome = form.querySelector('.nome');  
+            let sobrenome = form.querySelector('.sobrenome');  
+            let peso = form.querySelector('.peso');  
+            let altura = form.querySelector('.altura');  
+
+            let pessoa = {
+                nome: nome.value,
+                sobrenome: sobrenome.value,
+                peso: peso.value,
+                altura: altura.value
+            }
+
+            pessoas.push(pessoa); 
+
+            resultado.innerHTML += `<p>${nome.value} <br> ${sobrenome.value} <br> ${peso.value} <br> ${altura.value}` ; 
+        }
+
+        form.addEventListener('submit', RecebeEventoForm);
+    }
+
+    meuEscopo();
+
+</script>
+</html>
