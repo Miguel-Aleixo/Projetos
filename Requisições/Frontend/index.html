@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Posts</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 10px;
+        }
+
+        #loading {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: #333;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .post {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Teste</h1>
+
+    <form class="inputs" method="post">
+        <div>
+            <label for="titulo">Título</label>
+            <input id="titulo" type="text">
+        </div>
+        <div>
+            <label for="texto">Texto</label>
+            <input id="texto" type="text">
+        </div>
+        <div>
+            <button type="submit">Postar</button>
+        </div>
+    </form>
+
+    <p id="loading">Carregando...</p>
+
+    <div class="teste"></div>
+
+    <script>
+        const container = document.querySelector('.teste');
+        const loading = document.querySelector('#loading');
+        const form = document.querySelector('.inputs');
+        const tituloInput = document.querySelector('#titulo');
+        const textoInput = document.querySelector('#texto');
+
+        function criarPostElement(post) {
+            const div = document.createElement('div');
+            div.classList.add('post');
+
+            const title = document.createElement('h1');
+            const id = document.createElement('h2');
+            const body = document.createElement('p');
+            const link = document.createElement('a');
+            const btnDelete = document.createElement('button');
+            const btnAlterar = document.createElement('button');
+            const btnSalvar = document.createElement('button');
+            const inputTitulo = document.createElement('input');
+            const inputTexto = document.createElement('input');
+
+            btnSalvar.classList.add('hidden');
+            inputTitulo.classList.add('hidden');
+            inputTexto.classList.add('hidden');
+
+            title.innerText = post.title;
+            id.innerText = `ID: ${post.id}`;
+            body.innerText = post.body;
+
+            inputTitulo.value = post.title;
+            inputTexto.value = post.body;
+
+            link.innerText = 'Mostrar mais';
+            link.href = 'index2.html';
+            link.onclick = () => localStorage.setItem('postSelecionado', JSON.stringify(post));
+
+            btnDelete.innerText = 'Deletar post';
+            btnDelete.onclick = () => {
+                fetch(`http://localhost:3000/posts/${post.id}`, {
+                    method: 'DELETE'
+                })
+                    .then(() => {
+                        alert(`Post ID ${post.id} deletado`);
+                        div.remove();
+                    })
+                    .catch(() => alert('Erro ao deletar o post'));
+            };
+
+            btnSalvar.innerText = 'Salvar';
+            btnSalvar.onclick = async () => {
+                const novosDados = {
+                    id: post.id,
+                    title: inputTitulo.value,
+                    body: inputTexto.value,
+                    userId: post.userId
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:3000/posts/${post.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(novosDados)
+                    });
+
+                    const atualizado = await res.json();
+                    title.innerText = atualizado.title;
+                    body.innerText = atualizado.body;
+
+                    inputTitulo.classList.add('hidden');
+                    inputTexto.classList.add('hidden');
+                    title.classList.remove('hidden');
+                    body.classList.remove('hidden');
+                    btnSalvar.classList.add('hidden');
+                    btnAlterar.classList.remove('hidden');
+
+                    alert(`Post ID ${atualizado.id} atualizado!`);
+                } catch (err) {
+                    alert('Erro ao atualizar post');
+                    console.error(err);
+                }
+            };
+
+            btnAlterar.innerText = 'Alterar post';
+            btnAlterar.onclick = () => {
+                btnAlterar.classList.add('hidden');
+                btnSalvar.classList.remove('hidden');
+
+                title.classList.add('hidden');
+                body.classList.add('hidden');
+                inputTitulo.classList.remove('hidden');
+                inputTexto.classList.remove('hidden');
+            };
+
+            div.append(id, title, inputTitulo, body, inputTexto, link, btnDelete, btnSalvar, btnAlterar);
+            return div;
+        }
+
+        async function carregarPosts() {
+            try {
+                const res = await fetch('http://localhost:3000/posts');
+                const data = await res.json();
+                const posts = data.slice(0, 5);
+
+                posts.forEach(post => {
+                    const elemento = criarPostElement(post);
+                    container.appendChild(elemento);
+                });
+
+                loading.classList.add('hidden');
+            } catch (err) {
+                loading.innerText = 'Erro ao carregar os dados';
+                console.error(err);
+            }
+        }
+
+        let acumulador = 1;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const titulo = tituloInput.value.trim();
+            const texto = textoInput.value.trim();
+
+            if (!titulo || !texto) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+
+
+            const novoPost = {
+                title: titulo,
+                body: texto,
+                userId: acumulador
+            };
+
+            try {
+                const res = await fetch('http://localhost:3000/posts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(novoPost)
+                });
+
+                const postCriado = await res.json();
+                const novoElemento = criarPostElement(postCriado);
+                container.appendChild(novoElemento);
+
+                tituloInput.value = '';
+                textoInput.value = '';
+
+                acumulador++
+            } catch (err) {
+                alert('Erro ao criar post');
+                console.error(err);
+            }
+        });
+
+        carregarPosts();
+    </script>
+</body>
+
+</html>

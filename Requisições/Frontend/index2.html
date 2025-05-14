@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Post Detalhado</title>
+</head>
+<body>
+  <div id="conteudo"></div>
+
+  <script>
+    const post = JSON.parse(localStorage.getItem('postSelecionado'));
+
+    if (post) {
+      const div = document.getElementById('conteudo');
+
+      const id = document.createElement('h3');
+      const title = document.createElement('h1');
+      const body = document.createElement('p');
+
+      id.innerText = `ID: ${post.id}`;
+      title.innerText = post.title;
+      body.innerText = post.body;
+
+      div.appendChild(id);
+      div.appendChild(title);
+      div.appendChild(body);
+    } else {
+      document.body.innerHTML = "<p>Post não encontrado.</p>";
+    }
+  </script>
+</body>
+</html>
