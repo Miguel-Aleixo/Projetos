@@ -1,78 +1,163 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { getPosts, createPost } from "../lib/api";
-import Post from "../components/Post";
+import { useState, useEffect, useId } from "react"
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
-  const [titulo, setTitulo] = useState("");
-  const [texto, setTexto] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [titulo, setTitulo] = useState('')
+  const [texto, setTexto] = useState('')
+  const [postIdAlterado, setPostIdAlterado] = useState(null)
+  const [tituloAlterado, setTituloAlterado] = useState('')
+  const [textoAlterado, setTextoAlterado] = useState('')
+
+  // Get
 
   useEffect(() => {
-    carregar();
-  }, []);
+    fetch('http://localhost:3000/posts')
+      .then(res => res.json())
+      .then(data => {
+        setPosts(data)
+        setLoading(false)
+      })
+      .catch(e => {
+        alert('Erro no carregamento')
+        console.log(e)
+      })
+  }, [postIdAlterado])
 
-  const carregar = async () => {
-    try {
-      const dados = await getPosts();
-      setPosts(dados);
-    } catch (err) {
-      alert("Erro ao carregar posts");
-    } finally {
-      setLoading(false);
+  // Post
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    if (!titulo || !texto) return alert('Preencha os campos')
+
+    const novoPost = {
+      title: titulo,
+      body: texto,
+      userId: 1
     }
-  };
 
-  const adicionar = async (e) => {
-    e.preventDefault();
-    if (!titulo || !texto) return alert("Preencha tudo!");
+    const res = await fetch('http://localhost:3000/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(novoPost),
+    })
+
+    const postCriado = await res.json();
+    setPosts(prev => [...prev, postCriado]);
+    setTitulo('');
+    setTexto('');
+  }
+
+  // Delete
+
+  const deletarPost = async id => {
 
     try {
-      const novo = await createPost({ title: titulo, body: texto });
-      setPosts([...posts, novo]);
-      setTitulo("");
-      setTexto("");
-    } catch (err) {
-      alert("Erro ao criar post");
+      await fetch(`http://localhost:3000/posts/${id}`, {
+        method: 'DELETE'
+      })
+      setPosts(prev => prev.filter(p => p.id !== id));
+    } catch (e) {
+      alert('Erro ao deletar o post')
+      console.log(e);
     }
-  };
+  }
 
-  const atualizarPost = (postAtualizado) => {
-    setPosts(posts.map(p => (p.id === postAtualizado.id ? postAtualizado : p)));
-  };
+  // Put 
 
-  const deletarPost = (id) => {
-    setPosts(posts.filter(p => p.id !== id));
-  };
+  const salvarPost = async (id, userId) => {
+
+    const novosDados = {
+      id: id,
+      title: tituloAlterado,
+      body: textoAlterado,
+      userId: userId
+    }
+
+    try {
+      await fetch(`http://localhost:3000/posts/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(novosDados)
+      })
+    } catch (e) {
+      alert('Erro ao mudar os dados')
+      console.log(e);
+    }
+
+    setPostIdAlterado(null)
+  }
+
+  const alterarPost = (id, title, body) => {
+
+    setTituloAlterado(title)
+    setTextoAlterado(body)
+    setPostIdAlterado(id);
+  }
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Posts</h1>
+    <main>
+      <h1 className="font-bold text-xl text-center p-2">Teste de Posts</h1>
 
-      <form onSubmit={adicionar} style={{ marginBottom: 20 }}>
-        <input
-          placeholder="Título"
-          value={titulo}
-          onChange={(e) => setTitulo(e.target.value)}
-        />
-        <input
-          placeholder="Texto"
-          value={texto}
-          onChange={(e) => setTexto(e.target.value)}
-        />
-        <button type="submit">Adicionar</button>
+      <form className="font-semibold flex flex-col mx-2 rounded-md bg-zinc-100 shadow-sm gap-2 p-4 mb-6" onSubmit={handleSubmit}>
+        <div className="flex flex-col">
+          <label htmlFor="titulo">Título</label>
+          <input className="rounded-md p-1 bg-white"
+            id="titulo" value={titulo} onChange={e => setTitulo(e.target.value)} />
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="texto">Texto</label>
+          <input className="rounded-md p-1 bg-white"
+            id="texto" value={texto} onChange={e => setTexto(e.target.value)} />
+        </div>
+
+        <div className="flex flex-col items-center mt-1">
+          <button className="border-2 rounded-md w-full cursor-pointer bg-green-500 text-white p-1 border-zinc-200" type="submit">Postar</button>
+        </div>
       </form>
 
-      {loading ? <p>Carregando...</p> : posts.map((post) => (
-        <Post
-          key={post.id}
-          post={post}
-          onUpdate={atualizarPost}
-          onDelete={deletarPost}
-        />
-      ))}
-    </div>
-  );
+      {loading ? (
+        <p className="text-center font-semibold mt-2">Carregando...</p>
+      ) : (
+        posts.map(post => (
+          <div key={post.id}>
+            {postIdAlterado !== post.id ? (
+              <div className="flex flex-col gap-2 p-4 font-semibold bg-zinc-100 shadow-sm mx-2 my-4 rounded-md">
+
+                <div className="flex flex-col gap-2 mx-1">
+                  <h2>{post.title}</h2>
+                  <p>{post.body}</p>
+                  <small>ID: {post.id}</small>
+                </div>
+
+                <div className="flex gap-2">
+                  <button className="cursor-pointer bg-red-500 rounded-md px-2 text-white p-1" onClick={() => deletarPost(post.id)}>Deletar</button>
+                  <button className="cursor-pointer bg-green-500 rounded-md px-2 text-white p-1" onClick={() => alterarPost(post.id, post.title, post.body)}>Alterar</button>
+                </div>
+
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 p-4 font-semibold bg-zinc-100 shadow-sm mx-2 my-4 rounded-md">
+
+                <div className="flex flex-col gap-2">
+                  <input className="rounded-md p-1 bg-white" value={tituloAlterado} onChange={e => setTituloAlterado(e.target.value)} />
+                  <input className="rounded-md p-1 bg-white" value={textoAlterado} onChange={e => setTextoAlterado(e.target.value)} />
+                </div>
+
+                <div className="flex gap-2" >
+                  <button className="cursor-pointer bg-red-500 rounded-md px-2 text-white p-1" onClick={() => deletarPost(post.id)}>Deletar</button>
+                  <button className="cursor-pointer bg-green-500 rounded-md px-2 text-white p-1" onClick={() => salvarPost(post.id, post.userId)}>Salvar</button>
+                </div>
+
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </main>
+  )
 }
