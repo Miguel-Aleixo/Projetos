@@ -1,0 +1,38 @@
+[
+  {
+    "nome": "Miguel Aleixo",
+    "email": "email@gmail.com",
+    "senha": "11111111",
+    "telefone": "(11) 11111-1111",
+    "endereco": "a",
+    "tarefas": [
+      {
+        "id": 0,
+        "nome": "Fazer café"
+      },
+      {
+        "id": 1,
+        "nome": "Limpar a casa"
+      }
+    ],
+    "id": 1
+  },
+  {
+    "nome": "João Carlos",
+    "email": "carlos@gmail.com",
+    "senha": "11111111",
+    "telefone": "(11) 11111-1111",
+    "endereco": "a",
+    "tarefas": [
+      {
+        "id": 0,
+        "nome": "João Carlos"
+      },
+      {
+        "id": 1,
+        "nome": "Alguma tarefa"
+      }
+    ],
+    "id": 2
+  }
+]
