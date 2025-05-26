@@ -86,7 +86,7 @@ app.post('/novatarefa/:id', (req, res) => {
     const usuario = usuarios[index]
 
     const ultimoId = usuario.tarefas.length
-        ? Math.max(...usuario.tarefas.map(t => t.id))
+        ? Math.max(...usuario.tarefas.map(t => t.id)) + 1
         : 0;
 
     const tarefaComId = { id: ultimoId, ...novaTarefa };
@@ -138,6 +138,34 @@ app.delete('/usuarios/:idUsuario/tarefas/:idTarefa', (req, res) => {
 
     res.status(200).json({ mensagem: 'Tarefa excluída com sucesso' });
 })
+
+// Alterar tarefa
+
+app.put('/usuarios/:idUsuario/alterar/:idTarefa', (req, res) => {
+    const usuarios = lerUsuarios();
+    const { idUsuario, idTarefa } = req.params;
+    const tarefaAlterada = req.body;
+
+    const indexUsuario = usuarios.findIndex(u => u.id == idUsuario);
+    if (indexUsuario === -1) {
+        return res.status(404).json({ mensagem: 'Usuário não encontrado' });
+    }
+
+    const usuario = usuarios[indexUsuario];
+
+    const indexTarefa = usuario.tarefas.findIndex(t => t.id == idTarefa);
+    if (indexTarefa === -1) {
+        return res.status(404).json({ mensagem: 'Tarefa não encontrada' });
+    }
+
+    usuario.tarefas[indexTarefa] = tarefaAlterada
+
+    usuarios[indexUsuario] = usuario;
+    salvarUsuarios(usuarios);
+
+    res.status(200).json({ mensagem: 'Tarefa alterada com sucesso' });
+});
+
 
 // Inicia servidor
 app.listen(PORT, () => {
