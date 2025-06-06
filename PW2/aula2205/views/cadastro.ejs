@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cadastro</title>
+    <style>
+        /* Reset básico */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #6b8de3, #3b5998);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        section {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            width: 30vw;
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            color: #3b5998;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 1.2px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+            color: #555;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            padding: 12px 14px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            width: 100%;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b5998;
+            box-shadow: 0 0 8px rgba(59, 89, 152, 0.3);
+            background-color: #f0f4ff;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #3b5998;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: #2d4373;
+
+        }
+
+        .conta {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: #666;
+            position: relative;
+        }
+
+        .conta span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .conta a {
+            position: relative;
+            z-index: 1;
+            color: #3b5998;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .conta a::after {
+            content: "";
+            position: absolute;  
+            left: 0px;
+            bottom: -2px;
+            height: 1px;
+            width: 0;
+            border-radius: 5px;
+            background-color: #2d4373;
+            transition: all 0.2s;
+        }
+
+        .conta a:hover::after {
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <section>
+        <form action="" method="post" autocomplete="off">
+            <h1>Cadastro</h1>
+            <div>
+                <label for="nome">Nome</label>
+                <input id="nome" name="nome" type="text" placeholder="Seu nome..." required />
+            </div>
+            <div>
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" name="descricao" placeholder="Descrição..." rows="4" required></textarea>
+            </div>
+            <div>
+                <label for="nascimento">Data de Nascimento</label>
+                <input id="nascimento" name="nascimento" type="date" required />
+            </div>
+            <div>
+                <button type="submit">Cadastrar</button>
+            </div>
+        </form>
+
+        <aside class="conta">
+            <span>Já tem uma conta ?</span>
+            <a href="#">Fazer login</a>
+        </aside>
+    </section>
+</body>
+
+</html>
