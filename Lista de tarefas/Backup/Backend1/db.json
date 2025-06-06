@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "nome": "Miguel Aleixo",
+    "email": "admin@gmail.com",
+    "senha": "12345678",
+    "telefone": "(11) 11111-1111",
+    "endereco": "Sem endereço",
+    "tarefas": [
+      {
+        "id": 0,
+        "nome": "asasd",
+        "finalizada": true
+      },
+      {
+        "id": 1,
+        "nome": "aasdasd",
+        "finalizada": false
+      }
+    ]
+  }
+]

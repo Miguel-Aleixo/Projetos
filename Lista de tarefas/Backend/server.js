@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -99,19 +99,6 @@ app.post('/novatarefa/:id', (req, res) => {
     return res.status(201).json({ mensagem: 'Tarefa criada com sucesso' });
 })
 
-
-// PUT atualizar
-
-app.put('/usuarios/:id', (req, res) => {
-    const usuarios = lerUsuarios();
-    const index = usuarios.findIndex(u => u.id == req.params.id);
-    if (index === -1) return res.status(404).send('Usuario não encontrado');
-
-    usuarios[index] = { ...usuarios[index], ...req.body };
-    salvarUsuarios(usuarios);
-    res.json(usuarios[index]);
-});
-
 // Deletar tarefa
 
 app.delete('/usuarios/:idUsuario/tarefas/:idTarefa', (req, res) => {
@@ -145,7 +132,7 @@ app.put('/usuarios/:idUsuario/alterar/:idTarefa', (req, res) => {
     const usuarios = lerUsuarios();
     const { idUsuario, idTarefa } = req.params;
     const tarefaAlterada = req.body;
-
+    
     const indexUsuario = usuarios.findIndex(u => u.id == idUsuario);
     if (indexUsuario === -1) {
         return res.status(404).json({ mensagem: 'Usuário não encontrado' });

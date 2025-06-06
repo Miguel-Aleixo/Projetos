@@ -1,16 +1,11 @@
 [
   {
+    "id": 1,
     "nome": "Miguel Aleixo",
-    "email": "email@gmail.com",
-    "senha": "11111111",
+    "email": "admin@gmail.com",
+    "senha": "12345678",
     "telefone": "(11) 11111-1111",
-    "endereco": "a",
-    "tarefas": [
-      {
-        "id": 1,
-        "nome": "Outra gozada"
-      }
-    ],
-    "id": 1
+    "endereco": "Sem endereço",
+    "tarefas": []
   }
 ]
